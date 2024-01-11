@@ -23,7 +23,7 @@ This is a basic Todo application with Create, Read, Update, and Delete (CRUD) fu
 2. Change into the project directory:
 
     ```bash
-    cd laravel-todo-crud
+    cd todolist-basic-crud
     ```
 
 3. Install dependencies:
