@@ -3,11 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Todo; // Add the Todo model
 
 class TodoController extends Controller
 {
     public function index()
     {
-        return view('app');
+        // Fetch todos from the database or wherever you store them
+        $todos = Todo::all();
+
+        // Pass the $todos variable to the view
+        return view('app', ['todos' => $todos]);
+    }
+
+    public function store(Request $request)
+
+    {
+        // Validate the request
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'nullable',
+        ]);
+
+        // Create a new TODO list
+        Todo::create([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+        ]);
+
+        // Redirect back to the form
+        return redirect()->route('todos.index');
     }
 }
