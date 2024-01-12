@@ -1,0 +1,51 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node 16
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install packages
+        run: |
+          yarn install --frozen-lockfile
+          composer install --no-interaction --prefer-dist
+
+      - name: Create .env file
+        run: |
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
+
+      - name: Generate Application Key
+        run: php artisan key:generate
+
+      - name: Run migrations
+        run: php artisan migrate --force
+
+      - name: Install npm packages and build assets
+        run: |
+          npm install
+
+      - name: Install Railway
+        run: npm i -g @railway/cli
+
+      - name: Deploy Laravel
+        run: railway up --service hysterical-crib
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
