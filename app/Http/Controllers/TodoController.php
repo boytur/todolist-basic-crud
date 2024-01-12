@@ -17,7 +17,6 @@ class TodoController extends Controller
     }
 
     public function store(Request $request)
-
     {
         // Validate the request
         $validatedData = $request->validate([
@@ -31,6 +30,20 @@ class TodoController extends Controller
             'description' => $validatedData['description'],
         ]);
 
+        // Redirect back to the form
+        return redirect()->route('todos.index');
+    }
+
+    public function delete(Request $request, $id)
+    {
+        // validate the request
+        // ให้รับ $id มาจาก Request
+        // และใช้เมธอด find บนโมเดล Todo เพื่อหา Todo ที่ต้องการลบ
+        $todo = Todo::find($id);
+        if ($todo) {
+            // ถ้าพบ, ให้ใช้เมธอด delete เพื่อลบข้อมูล
+            $todo->delete();
+        }
         // Redirect back to the form
         return redirect()->route('todos.index');
     }
