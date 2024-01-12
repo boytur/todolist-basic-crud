@@ -66,8 +66,11 @@ This is a basic Todo application with Create, Read, Update, and Delete (CRUD) fu
     
 3. Start managing your Todo items with basic CRUD operations.
 
-## update-1
+## Update-1
 ![laravel-update-1](https://github.com/boytur/todolist-basic-crud/assets/104257779/a34bda53-d692-4de7-8e18-98d126eebcda)
+
+## Update-2
+![laravel-update-2](https://github.com/boytur/todolist-basic-crud/assets/104257779/adf2c458-d7a5-48fe-bc71-260f61ac2fe1)
 
 
 
